@@ -84,6 +84,51 @@ describe("task", () => {
       JSON.parse(res.text).should.have.property("tasks").with.lengthOf(2);
     });
   });
+
+  describe("POST /api/task - add task", () => {
+    const newId = 9999;
+
+    after(async () => {
+      await knex.from(TASK_TABLE).where("id", newId).del().catch(console.error);
+      console.log("removed sample task");
+    });
+
+    it("should add task", async () => {
+      const sampleTask = {
+        id: newId,
+        people_id: peopleFixture.id,
+        title: "test",
+        description: "test description",
+        end_date: new Date(),
+        notify_date: new Date(),
+      };
+      const res = await request.post("/api/task").send(sampleTask);
+      res.should.be.json;
+      JSON.parse(res.text).id.should.to.eq(newId);
+
+      const task = await knex(TASK_TABLE).select().where("id", newId).first();
+      task.should.to.exist;
+      task.id.should.to.eq(newId);
+    });
+  });
+
+  describe("PATCH /api/task/:id", () => {
+    it("should modify task", async () => {
+      const res = await request
+        .patch("/api/task/" + taskFixture.id)
+        .send({ title: "test2" });
+      res.should.be.json;
+      JSON.parse(res.text).id.should.eq(taskFixture.id);
+    });
+  });
+
+  describe("DELETE /api/task/:id", () => {
+    it("should delete task", async () => {
+      const res = await request.delete("/api/task/" + taskFixture.id);
+      res.should.be.json;
+      JSON.parse(res.text).id.should.eq(taskFixture.id);
+    });
+  });
 });
 
 /* eslint-enable no-unused-vars */

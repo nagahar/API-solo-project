@@ -1,4 +1,3 @@
-const path = require("path");
 const taskModel = require("./task/task.model");
 
 const setupServer = () => {
@@ -14,28 +13,57 @@ const setupServer = () => {
 */
   app.use(express.json());
 
-  // For parsing form data (application/x-www-form-urlencoded)
-  app.use(express.urlencoded({ extended: true }));
-
-  // This configures templates for the frontend of the app.
-  app.set("views", `${__dirname}/templates`);
-  app.set("view engine", "ejs");
-
-  /*
-  This allows us to serve static files (html, css, etc.) from
-  the public directory.
-*/
-  app.use(express.static(path.join(__dirname, "public")));
-
   app.get("/api/task", async (req, res) => {
     const n = req.query.limit;
     const array = [];
-    const tasks = await taskModel.getAll();
-    for (let i = 0; i < n; i++) {
-      array.push(tasks[i]);
+    try {
+      const tasks = await taskModel.get();
+      for (let i = 0; i < n; i++) {
+        array.push(tasks[i]);
+      }
+      const result = { tasks: array };
+      res.send(result);
+    } catch (e) {
+      console.log(e);
+      res.send({});
     }
-    const result = { tasks: array };
-    res.send(result);
+  });
+
+  app.post("/api/task", async (req, res) => {
+    const { body } = req;
+    try {
+      await taskModel.create(body);
+      const result = { id: body.id };
+      res.send(result);
+    } catch (e) {
+      console.log(e);
+      res.send({});
+    }
+  });
+
+  app.patch("/api/task/:id", async (req, res) => {
+    const id = req.params.id;
+    const { body } = req;
+    try {
+      await taskModel.update(id, body);
+      const result = { id: Number(id) };
+      res.send(result);
+    } catch (e) {
+      console.log(e);
+      res.send({});
+    }
+  });
+
+  app.delete("/api/task/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+      await taskModel.delete(id);
+      const result = { id: Number(id) };
+      res.send(result);
+    } catch (e) {
+      console.log(e);
+      res.send({});
+    }
   });
 
   return app;

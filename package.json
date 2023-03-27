@@ -7,7 +7,7 @@
     "start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js",
     "lint": "eslint --fix --ext .js .",
-    "test": "mocha test && npm run lint",
+    "test": "mocha --exit && npm run lint",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run"
   },
@@ -27,11 +27,18 @@
   "devDependencies": {
     "chai": "^4.3.7",
     "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-problems": "^7.0.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.1",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.22",
-    "prettier": "^2.8.7"
+    "prettier": "^2.8.7",
+    "pretty-quick": "^3.1.3"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
     "express": "^4.18.2",
     "knex": "^2.4.2",
     "pg": "^8.10.0"

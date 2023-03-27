@@ -1,11 +1,11 @@
 const path = require("path");
 const peopleController = require("./people/people.controller");
+const taskController = require("./task/task.controller");
 
 const setupExpressServer = () => {
   /* return configured express app */
   const express = require("express");
   const app = express();
-  const qs = require("qs");
 
   /*
   This adds JSON parsing middleware for incoming request
@@ -29,6 +29,8 @@ const setupExpressServer = () => {
   app.use(express.static(path.join(__dirname, "public")));
 
   app.get("/people", peopleController.index);
+
+  app.get("/task", taskController.index);
 
   app.get("/hellojson", (req, res) => {
     res.send({ hello: "world" });

@@ -1,9 +1,9 @@
 const knex = require("../knex");
-const { validProps, requiredProps } = require("../util/validation");
+// const { validProps, requiredProps } = require("../util/validation");
 
-const validateProps = validProps(["id", "first_name", "last_name", "email"]);
+// const validateProps = validProps(["id", "first_name", "last_name", "email"]);
 
-const validateRequired = requiredProps(["last_name", "first_name"]);
+// const validateRequired = requiredProps(["last_name", "first_name"]);
 
 const PEOPLE_TABLE = "people";
 

@@ -10,7 +10,7 @@
 ```
 TABLE task {
 	id int [pk]
-	user_id id [ref: > user.id, not null]
+	poeple_id id [ref: > people.id, not null]
 	title varchar(32) NOT NULL
 	description varchar(64)
 	end_date date
@@ -18,10 +18,10 @@ TABLE task {
 }
 ```
 
-## User Table
+## People Table
 
 ```
-TABLE user {
+TABLE people {
 	id int [pk]
 	last_name varchar(64) NOT NULL
 	first_name varchar(64) NOT NULL

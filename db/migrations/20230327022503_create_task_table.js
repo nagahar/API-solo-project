@@ -5,8 +5,8 @@
 exports.up = function (knex) {
   return knex.schema.createTable("task", function (table) {
     table.increments("id").primary();
-    table.integer("user_id").notNullable();
-    table.foreign("user_id").references("id").inTable("user");
+    table.integer("people_id").notNullable();
+    table.foreign("people_id").references("id").inTable("people");
     table.string("title", 32).notNullable();
     table.string("description", 64);
     table.datetime("end_date");

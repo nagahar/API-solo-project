@@ -1,8 +1,7 @@
 const path = require("path");
-const peopleController = require("./people/people.controller");
-const taskController = require("./task/task.controller");
+const taskModel = require("./task/task.model");
 
-const setupExpressServer = () => {
+const setupServer = () => {
   /* return configured express app */
   const express = require("express");
   const app = express();
@@ -28,22 +27,18 @@ const setupExpressServer = () => {
 */
   app.use(express.static(path.join(__dirname, "public")));
 
-  app.get("/people", peopleController.index);
-
-  app.get("/task", taskController.index);
-
-  app.get("/hellojson", (req, res) => {
-    res.send({ hello: "world" });
+  app.get("/api/task", async (req, res) => {
+    const n = req.query.limit;
+    const array = [];
+    const tasks = await taskModel.getAll();
+    for (let i = 0; i < n; i++) {
+      array.push(tasks[i]);
+    }
+    const result = { tasks: array };
+    res.send(result);
   });
 
-  app.get("/greet", (req, res) => {
-    res.send(`Hello ${req.query.name}!`);
-  });
-
-  //app.get("/:a/plus/:b", (req, res) => {
-  //  res.json({ result: a + b });
-  //});
   return app;
 };
 
-module.exports = { setupExpressServer };
+module.exports = { setupServer };

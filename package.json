@@ -1,5 +1,5 @@
 {
-  "name": "y",
+  "name": "todo.list.project",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -26,6 +26,7 @@
   "homepage": "https://github.com/nagahar/API-solo-project#readme",
   "devDependencies": {
     "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-problems": "^7.0.1",

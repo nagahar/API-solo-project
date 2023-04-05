@@ -15,13 +15,9 @@ const setupServer = () => {
 
   app.get("/api/task", async (req, res) => {
     const n = req.query.limit;
-    const array = [];
     try {
-      const tasks = await taskModel.get();
-      for (let i = 0; i < n; i++) {
-        array.push(tasks[i]);
-      }
-      const result = { tasks: array };
+      const tasks = await taskModel.get(n);
+      const result = { tasks: tasks };
       res.send(result);
     } catch (e) {
       console.log(e);
@@ -31,39 +27,43 @@ const setupServer = () => {
 
   app.post("/api/task", async (req, res) => {
     const { body } = req;
+    const result = {};
     try {
-      await taskModel.create(body);
-      const result = { id: body.id };
-      res.send(result);
+      if (Object.keys(body).length !== 0) {
+        await taskModel.create(body);
+        result.id = body.id;
+      }
     } catch (e) {
       console.log(e);
-      res.send({});
     }
+    res.send(result);
   });
 
   app.patch("/api/task/:id", async (req, res) => {
     const id = req.params.id;
     const { body } = req;
+    const result = {};
     try {
-      await taskModel.update(id, body);
-      const result = { id: Number(id) };
-      res.send(result);
+      if (Object.keys(body).length !== 0) {
+        await taskModel.update(id, body);
+        result.id = Number(id);
+      }
     } catch (e) {
       console.log(e);
-      res.send({});
     }
+    res.send(result);
   });
 
   app.delete("/api/task/:id", async (req, res) => {
     const id = req.params.id;
+    const result = {};
     try {
       await taskModel.delete(id);
-      const result = { id: Number(id) };
-      res.send(result);
+      result.id = Number(id);
     } catch (e) {
       console.log(e);
-      res.send({});
     }
+    res.send(result);
   });
 
   return app;

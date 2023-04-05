@@ -20,10 +20,7 @@ module.exports = {
         notifyDate: "notify_date",
       })
       .from(TASK_TABLE)
-      .limit(limit)
-      .then((val) => {
-        return val;
-      });
+      .limit(limit);
   },
 
   /**
